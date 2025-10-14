@@ -1,15 +1,21 @@
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 import express from "express";
-import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
 
-import indexRouter from "./routes/index";
-import usersRouter from "./routes/users.route";
+import { Res } from "./utils/Response";
+
+import * as z from "zod";
+import { es } from "zod/locales";
+import authRouter from "./modules/auth/auth.route";
+import userRouter from "./modules/users/users.route";
+import { authMiddleware } from "./middleware";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+z.config(es());
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -17,11 +23,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/auth", authRouter);
 
-app.use(function (_, __, next) {
-  next(createError(404));
+app.use(authMiddleware);
+
+app.use("/users", userRouter);
+
+app.use(function (_, res, next) {
+  return res.status(404).json(new Res(null, "Recurso no encontrado"));
 });
 
 app.listen(PORT, () => {
@@ -29,3 +38,6 @@ app.listen(PORT, () => {
 });
 
 export default app;
+function loadLocale(es: any) {
+  throw new Error("Function not implemented.");
+}

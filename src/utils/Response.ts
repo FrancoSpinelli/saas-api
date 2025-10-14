@@ -1,11 +1,13 @@
-export class SuccessResponse<T> {
+export class Res<T> {
   public count?: number;
   constructor(
-    public data: T | T[],
+    public data: undefined | T | T[],
     public message: string,
     public success: boolean = true
   ) {
-    this.data = data;
+    if (!data) {
+      delete this.data;
+    }
     this.message = message;
     this.success = success;
 

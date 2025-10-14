@@ -8,7 +8,7 @@ export const usersMock: User[] = [
     firstName: "Franco",
     lastName: "Spinelli",
     email: "francospinelli2903@gmail.com",
-    password: "1234",
+    password: "$2b$10$G0AHYdhIV36QDzmav422BOVLpxZPERMGROM.tua1JqdI88.nbThVq", // 1234
     role: Role.ADMIN,
   },
   {
@@ -16,7 +16,7 @@ export const usersMock: User[] = [
     firstName: "Santi",
     lastName: "Longo",
     email: "santilongo@gmail.com",
-    password: "1234",
+    password: "$2b$10$Mk0HHLT7nP0HdM8L.P1bYe/TwNq3XkJX0JK0J2CV0KiI7QulRKQ7W", // 1234
     role: Role.CLIENT,
   },
 ];

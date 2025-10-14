@@ -1,12 +1,13 @@
 import { compareSync, hashSync } from "bcrypt";
 import express from "express";
 import jwt from "jsonwebtoken";
+import { env } from "../../config";
 import { Role } from "../../enum";
 import { usersMock } from "../../mocks";
 import { Res } from "../../utils/Response";
 import { LoggedUser, SignInDto, SignUpDto } from "./auth.dto";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
+const JWT_SECRET = env.JWT_SECRET;
 
 export const signUp = (req: express.Request, res: express.Response) => {
   const newUser: SignUpDto = req.body;

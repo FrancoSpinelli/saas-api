@@ -1,9 +1,11 @@
-import { usersMock } from "../../mocks";
+import { UserRepository } from "./user.repository";
+
+const userRepository = new UserRepository();
 
 export const getUsers = () => {
-  return usersMock;
+  return userRepository.findAll();
 };
 
 export const getUserById = (id: string) => {
-  return usersMock.find((user) => user.id === id);
+  return userRepository.findById(id);
 };

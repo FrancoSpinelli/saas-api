@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Res } from "../utils/Response";
+import { env } from "../config";
 import { getUserById } from "../modules/users/user.service";
+import { Res } from "../utils/Response";
 
 export interface AuthenticatedRequest extends Request {
   user?: any;
 }
+
+const JWT_SECRET = env.JWT_SECRET;
 
 export async function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const invalidTokenMessage = "Token inválido o expirado";
@@ -17,15 +20,14 @@ export async function authMiddleware(req: AuthenticatedRequest, res: Response, n
   }
 
   const token = authHeader.split(" ")[1];
-  const secret = process.env.JWT_SECRET ?? "";
 
   try {
-    const payload = jwt.verify(token, secret) as JwtPayload;
+    const payload = jwt.verify(token, JWT_SECRET) as JwtPayload;
     req.user = getUserById(payload.id);
     if (!req.user) {
       return res.status(401).json(new Res(null, invalidTokenMessage, false));
     }
-    
+
     return next();
   } catch (err) {
     return res.status(401).json(new Res(null, invalidTokenMessage, false));

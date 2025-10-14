@@ -8,14 +8,17 @@ import { Res } from "./utils/Response";
 
 import * as z from "zod";
 import { es } from "zod/locales";
+import { connectMongo } from "./database/connection";
+import { authMiddleware } from "./middleware";
 import authRouter from "./modules/auth/auth.route";
 import userRouter from "./modules/users/users.route";
-import { authMiddleware } from "./middleware";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 z.config(es());
+connectMongo();
+
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -38,6 +41,3 @@ app.listen(PORT, () => {
 });
 
 export default app;
-function loadLocale(es: any) {
-  throw new Error("Function not implemented.");
-}

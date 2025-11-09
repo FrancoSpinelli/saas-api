@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import { Role } from "../../enum";
 
 export interface UserDocument extends Document {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -15,8 +16,8 @@ const userSchema = new Schema(
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    name: { type: String, required: true },
     role: { type: String, enum: Role, default: Role.CLIENT },
+    isActive: { type: Boolean, default: true },
   },
   {
     timestamps: true,

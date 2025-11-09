@@ -12,6 +12,7 @@ import { connectMongo } from "./database/connection";
 import { authMiddleware } from "./middleware";
 import authRouter from "./modules/auth/auth.route";
 import userRouter from "./modules/users/users.route";
+import { runSeeders, unseedData } from "./database/seeders";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,18 @@ const PORT = process.env.PORT || 3000;
 z.config(es());
 connectMongo();
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    return res.status(200).json({});
+  }
+  next();
+});
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -39,5 +52,8 @@ app.use(function (_, res, next) {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+// runSeeders();
+// unseedData();
 
 export default app;

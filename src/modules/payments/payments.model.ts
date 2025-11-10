@@ -2,11 +2,12 @@ import { Schema, model, Document, Types } from "mongoose";
 import { PaymentMethod, PaymentStatus } from "../../enum";
 
 export interface PaymentDocument extends Document {
+  id: string;
   status: PaymentStatus;
   method: PaymentMethod;
-  subscription: string;
-  plan: string;
-  client: string;
+  subscription: Schema.Types.ObjectId;
+  plan: Schema.Types.ObjectId;
+  client: Schema.Types.ObjectId;
 }
 
 const paymentSchema = new Schema(

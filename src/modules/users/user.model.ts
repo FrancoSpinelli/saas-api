@@ -8,6 +8,8 @@ export interface UserDocument extends Document {
   email: string;
   password: string;
   role: Role;
+  active: boolean;
+  image: string;
 }
 
 const userSchema = new Schema(
@@ -17,7 +19,8 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: Role, default: Role.CLIENT },
-    isActive: { type: Boolean, default: true },
+    image: { type: String, default: "" },
+    active: { type: Boolean, default: true },
   },
   {
     timestamps: true,

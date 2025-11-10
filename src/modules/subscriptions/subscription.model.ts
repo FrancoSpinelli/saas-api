@@ -1,9 +1,10 @@
 import { Schema, model, Document } from "mongoose";
 
 export interface SubscriptionDocument extends Document {
-  client: string;
-  plan: string;
-  service: string;
+  id: string;
+  client: Schema.Types.ObjectId;
+  plan: Schema.Types.ObjectId;
+  service: Schema.Types.ObjectId;
   startDate: Date;
   endDate: Date;
   paid: boolean;

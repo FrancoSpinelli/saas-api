@@ -10,6 +10,15 @@ export const subscriptionsMock = [
     endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     paid: false,
   },
+  {
+    _id: "64a1f3b2e4c5d6f700000042",
+    client: "64a1f3b2e4c5d6f700000003",
+    plan: "64a1f3b2e4c5d6f700000022",
+    service: "64a1f3b2e4c5d6f700000032",
+    startDate: new Date(),
+    endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+    paid: false,
+  },
 ];
 
 export async function seedSubscriptions() {

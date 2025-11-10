@@ -10,6 +10,14 @@ export const paymentsMock = [
     method: PaymentMethod.CREDIT_CARD,
     paidAt: new Date(),
   },
+  {
+    _id: "64a1f3b2e4c5d6f700000052",
+    subscription: "64a1f3b2e4c5d6f700000042",
+    plan: "64a1f3b2e4c5d6f700000022",
+    client: "64a1f3b2e4c5d6f700000003",
+    method: PaymentMethod.BANK_TRANSFER,
+    paidAt: new Date(),
+  },
 ];
 
 export async function seedPayments() {
@@ -21,4 +29,4 @@ export async function seedPayments() {
 export async function unseedPayments() {
   await PaymentModel.deleteMany({});
   console.log("✅ Payments cleared");
-} 
+}

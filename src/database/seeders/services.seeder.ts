@@ -14,6 +14,19 @@ export const servicesMock = [
     ],
     owner: "64a1f3b2e4c5d6f700000001",
   },
+  {
+    _id: "64a1f3b2e4c5d6f700000032",
+    name: "Sistema de gestión de Pañol Online",
+    description: "Software para la gestión de inventarios en línea",
+    category: "64a1f3b2e4c5d6f700000012",
+    plans: [
+      "64a1f3b2e4c5d6f700000021",
+      "64a1f3b2e4c5d6f700000022",
+      "64a1f3b2e4c5d6f700000023",
+      "64a1f3b2e4c5d6f700000024",
+    ],
+    owner: "64a1f3b2e4c5d6f700000001",
+  },
 ];
 
 export async function seedServices() {

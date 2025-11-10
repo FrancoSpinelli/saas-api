@@ -1,4 +1,4 @@
-import { Period } from "../../enum";
+import { Currency, Period } from "../../enum";
 import { PlanModel } from "../../modules/plans/plans.model";
 
 export const plansMock = [
@@ -7,6 +7,7 @@ export const plansMock = [
     name: "Plan Básico",
     period: Period.MONTHLY,
     price: 10,
+    currency: Currency.USD,
     active: false,
   },
   {
@@ -14,6 +15,7 @@ export const plansMock = [
     name: "Plan Estándar",
     period: Period.QUARTERLY,
     price: 20,
+    currency: Currency.USD,
     active: true,
   },
   {
@@ -21,7 +23,7 @@ export const plansMock = [
     name: "Plan Premium",
     period: Period.SEMESTRAL,
     price: 50,
-    currency: "USD",
+    currency: Currency.USD,
     active: true,
   },
   {
@@ -29,7 +31,7 @@ export const plansMock = [
     name: "Plan Ultimate",
     period: Period.ANNUAL,
     price: 90,
-    currency: "USD",
+    currency: Currency.USD,
     active: true,
   },
 ];

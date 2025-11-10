@@ -11,8 +11,10 @@ import { es } from "zod/locales";
 import { connectMongo } from "./database/connection";
 import { authMiddleware } from "./middleware";
 import authRouter from "./modules/auth/auth.route";
+import categoryRouter from "./modules/categories/categories.route";
+import paymentRouter from "./modules/payments/payments.route";
+import serviceRouter from "./modules/services/services.route";
 import userRouter from "./modules/users/users.route";
-import { runSeeders, unseedData } from "./database/seeders";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,6 +46,9 @@ app.use("/auth", authRouter);
 app.use(authMiddleware);
 
 app.use("/users", userRouter);
+app.use("/categories", categoryRouter);
+app.use("/services", serviceRouter);
+app.use("/payments", paymentRouter);
 
 app.use(function (_, res, next) {
   return res.status(404).json(new Res(null, "Recurso no encontrado"));
@@ -52,8 +57,5 @@ app.use(function (_, res, next) {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-// runSeeders();
-// unseedData();
 
 export default app;

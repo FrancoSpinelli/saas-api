@@ -1,4 +1,4 @@
-import { CategoryModel } from "../../modules/categories/categories.model";
+import { CategoryModel } from "../../modules/category/category.model";
 
 export const categoriesMock = [
   {

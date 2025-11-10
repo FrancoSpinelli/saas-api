@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../database/base.repository";
-import { CategoryDocument, CategoryModel } from "./categories.model";
+import { CategoryDocument, CategoryModel } from "./category.model";
 
 export class CategoryRepository extends BaseRepository<CategoryDocument> {
   constructor() {

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SignInSchema, SignUpSchema } from "./auth.schema.dto";
+import { SignInSchema, SignUpSchema } from "./auth.schema";
 import { Role } from "../../enum";
 
 export interface SignInDto extends z.infer<typeof SignInSchema> {}

@@ -11,7 +11,7 @@ import { es } from "zod/locales";
 import { connectMongo } from "./database/connection";
 import { authMiddleware } from "./middleware";
 import authRouter from "./modules/auth/auth.route";
-import categoryRouter from "./modules/categories/categories.route";
+import categoryRouter from "./modules/category/category.route";
 import paymentRouter from "./modules/payments/payments.route";
 import planRouter from "./modules/plans/plans.route";
 import serviceRouter from "./modules/services/services.route";

@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "tsc && nodemon ./src/app.ts",
     "build": "tsc",
+    "seed": "tsx src/database/seeders/runSeeders.ts",
+    "unseed": "tsx src/database/seeders/runUnseeder.ts",
     "lint": "eslint src --config eslint.config.mts --ext .ts,.mts,.cts",
     "format": "prettier --write .",
     "start": "node ./dist/app.js"
@@ -24,6 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.1",
     "morgan": "^1.10.1",
+    "tsx": "^4.20.6",
     "zod": "^4.1.12"
   },
   "devDependencies": {

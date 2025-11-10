@@ -1,4 +1,4 @@
-import { PaymentMethod } from "../../enum";
+import { PaymentMethod, PaymentStatus } from "../../enum";
 import { PaymentModel } from "../../modules/payments/payments.model";
 
 export const paymentsMock = [
@@ -8,6 +8,7 @@ export const paymentsMock = [
     plan: "64a1f3b2e4c5d6f700000021",
     client: "64a1f3b2e4c5d6f700000002",
     method: PaymentMethod.CREDIT_CARD,
+    status: PaymentStatus.PAID,
     paidAt: new Date(),
   },
   {
@@ -16,6 +17,7 @@ export const paymentsMock = [
     plan: "64a1f3b2e4c5d6f700000022",
     client: "64a1f3b2e4c5d6f700000003",
     method: PaymentMethod.BANK_TRANSFER,
+    status: PaymentStatus.PAID,
     paidAt: new Date(),
   },
 ];

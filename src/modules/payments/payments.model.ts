@@ -8,6 +8,7 @@ export interface PaymentDocument extends Document {
   subscription: Schema.Types.ObjectId;
   plan: Schema.Types.ObjectId;
   client: Schema.Types.ObjectId;
+  paidAt?: Date;
 }
 
 const paymentSchema = new Schema(
@@ -21,6 +22,7 @@ const paymentSchema = new Schema(
     subscription: { type: Types.ObjectId, ref: "Subscription", required: true },
     plan: { type: Types.ObjectId, ref: "Plan", required: true },
     client: { type: Types.ObjectId, ref: "User", required: true },
+    paidAt: { type: Date },
   },
   {
     timestamps: true,

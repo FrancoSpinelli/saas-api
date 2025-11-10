@@ -7,7 +7,14 @@ export class UserRepository extends BaseRepository<UserDocument> {
   }
 
   async findByEmail(email: string) {
-    return await this.model.findOne({ email }).lean();
+    return await this.model.findOne({ email, select: { password: 1 } }).lean();
+  }
+
+  async findByEmailToAuth(email: string) {
+    return this.model
+      .findOne({ email, active: true })
+      .select("+password")
+      .lean() as Promise<UserDocument | null>;
   }
 }
 

@@ -12,3 +12,13 @@ export const getServiceById = async (req: Request, res: Response) => {
   const service = await servicesService.getServiceById(serviceId);
   return res.status(200).json(new Res(service, "Servicio obtenido con éxito"));
 };
+
+export const activeServiceToggle = async (req: Request, res: Response) => {
+  const serviceId = req.params.id;
+  try {
+    await servicesService.activeServiceToggle(serviceId);
+    res.status(200).json(new Res(null, "Actividad del servicio actualizada con éxito"));
+  } catch (error) {
+    res.status(404).json(new Res(null, (error as Error).message, false));
+  }
+};

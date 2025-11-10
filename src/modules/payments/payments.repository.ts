@@ -13,11 +13,12 @@ export class PaymentRepository extends BaseRepository<PaymentDocument> {
       .find(filter)
       .populate("subscription")
       .populate("plan")
-      .populate("client", "firstName lastName email role")
+      .populate("client", "firstName lastName email role", "User")
       .populate({
         path: "subscription",
         populate: [
-          { path: "service", select: "name description" },
+          { path: "service", select: "name description", model: "Service" },
+          { path: "client", select: "firstName lastName email role", model: "User" },
         ],
       })
       .exec();

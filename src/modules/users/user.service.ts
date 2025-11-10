@@ -16,5 +16,17 @@ export const createUser = (data: Partial<UserDocument>) => {
 };
 
 export const getUserByEmail = (email: string) => {
-  return userRepository.findOne({ email });
+  return userRepository.findOne({ email, active: true });
+};
+
+export const getUserByEmailToAuth = (email: string) => {
+  return userRepository.findByEmailToAuth(email);
+};
+
+export const activeUserToggle = async (id: string) => {
+  const user = await userRepository.findById(id);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return userRepository.update(id, { active: !user.active });
 };

@@ -13,3 +13,13 @@ export const getUserById = async (req: Request, res: Response) => {
 
   res.status(200).json(new Res(user, "Usuario obtenido con éxito"));
 };
+
+export const activeUserToggle = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  try {
+    await userService.activeUserToggle(id);
+    res.status(200).json(new Res(null, "Actividad del usuario actualizada con éxito"));
+  } catch (error) {
+    res.status(404).json(new Res(null, (error as Error).message, false));
+  }
+};

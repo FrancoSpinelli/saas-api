@@ -9,3 +9,7 @@ export const getSubscriptions = () => {
 export const getSubscriptionById = (id: string) => {
   return subscriptionRepository.findById(id);
 };
+
+export const inactivateSubscription = (id: string) => {
+  return subscriptionRepository.update(id, { active: false });
+};

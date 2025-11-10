@@ -1,9 +1,10 @@
 import express from "express";
-import { getServices, getServiceById } from "./services.controller";
+import { activeServiceToggle, getServiceById, getServices } from "./services.controller";
 
 const servicesRouter = express.Router();
 
 servicesRouter.get("/", getServices);
 servicesRouter.get("/:id", getServiceById);
+servicesRouter.patch("/:id/activeToggle", activeServiceToggle);
 
 export default servicesRouter;

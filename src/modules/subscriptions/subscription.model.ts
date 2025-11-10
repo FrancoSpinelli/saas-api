@@ -8,6 +8,7 @@ export interface SubscriptionDocument extends Document {
   startDate: Date;
   endDate: Date;
   paid: boolean;
+  active: boolean;
 }
 
 const subscriptionSchema = new Schema(
@@ -18,6 +19,7 @@ const subscriptionSchema = new Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     paid: { type: Boolean, default: false },
+    active: { type: Boolean, default: true },
   },
   {
     timestamps: true,

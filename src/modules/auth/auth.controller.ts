@@ -31,15 +31,14 @@ export const signUp = async (req: express.Request, res: express.Response) => {
 export const signIn = async (req: express.Request, res: express.Response) => {
   const { email, password }: SignInDto = req.body;
 
-  const user = await userService.getUserByEmail(email);
-
+  const user = await userService.getUserByEmailToAuth(email);
   if (user && compareSync(password, user.password)) {
     const response: LoggedUser = {
       ...user,
       role: user.role,
       token: generateToken(user.id),
     };
-
+    
     res.status(200).json(new Res(response, "Inicio de sesión exitoso"));
   } else {
     res.status(401).json(new Res(null, "Credenciales inválidas", false));

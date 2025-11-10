@@ -9,3 +9,11 @@ export const getServices = () => {
 export const getServiceById = (id: string) => {
   return serviceRepository.findById(id);
 };
+
+export const activeServiceToggle = async (id: string) => {
+  const service = await serviceRepository.findById(id);
+  if (!service) {
+    throw new Error("Service not found");
+  }
+  return serviceRepository.update(id, { active: !service.active });
+};

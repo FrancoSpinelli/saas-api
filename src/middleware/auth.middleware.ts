@@ -12,11 +12,12 @@ const JWT_SECRET = env.JWT_SECRET;
 
 export async function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const invalidTokenMessage = "Token inválido o expirado";
+  const UnauthorizedMessage = "No autorizado";
 
   const authHeader = (req.headers.authorization ?? req.headers.Authorization) as string | undefined;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json(new Res(null, invalidTokenMessage, false));
+    return res.status(401).json(new Res(null, UnauthorizedMessage, false));
   }
 
   const token = authHeader.split(" ")[1];
@@ -25,7 +26,7 @@ export async function authMiddleware(req: AuthenticatedRequest, res: Response, n
     const payload = jwt.verify(token, JWT_SECRET) as JwtPayload;
     req.user = getUserById(payload.id);
     if (!req.user) {
-      return res.status(401).json(new Res(null, invalidTokenMessage, false));
+      return res.status(401).json(new Res(null, UnauthorizedMessage, false));
     }
 
     return next();

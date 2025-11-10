@@ -13,7 +13,9 @@ import { authMiddleware } from "./middleware";
 import authRouter from "./modules/auth/auth.route";
 import categoryRouter from "./modules/categories/categories.route";
 import paymentRouter from "./modules/payments/payments.route";
+import planRouter from "./modules/plans/plans.route";
 import serviceRouter from "./modules/services/services.route";
+import subscriptionRouter from "./modules/subscriptions/subscription.route";
 import userRouter from "./modules/users/users.route";
 
 const app = express();
@@ -49,6 +51,8 @@ app.use("/users", userRouter);
 app.use("/categories", categoryRouter);
 app.use("/services", serviceRouter);
 app.use("/payments", paymentRouter);
+app.use("/subscriptions", subscriptionRouter);
+app.use("/plans", planRouter);
 
 app.use(function (_, res, next) {
   return res.status(404).json(new Res(null, "Recurso no encontrado"));
@@ -57,5 +61,6 @@ app.use(function (_, res, next) {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
 
 export default app;

@@ -14,6 +14,13 @@ export const getSubscriptionById = async (req: Request, res: Response) => {
   res.status(200).json(new Res(subscription, "Suscripción obtenida con éxito"));
 };
 
+export const getSubscriptionByUserId = async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  const subscription = await subscriptionService.getSubscriptionByUserId(userId);
+
+  res.status(200).json(new Res(subscription, "Suscripción del usuario obtenida con éxito"));
+};
+
 export const inactivateSubscription = async (req: Request, res: Response) => {
   const subscriptionId = req.params.id;
   await subscriptionService.inactivateSubscription(subscriptionId);

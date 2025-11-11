@@ -9,6 +9,8 @@ export const paymentsMock = [
     client: "64a1f3b2e4c5d6f700000002",
     method: PaymentMethod.CREDIT_CARD,
     status: PaymentStatus.PAID,
+    from: new Date(),
+    to: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     paidAt: new Date(),
   },
   {
@@ -18,6 +20,8 @@ export const paymentsMock = [
     client: "64a1f3b2e4c5d6f700000003",
     method: PaymentMethod.BANK_TRANSFER,
     status: PaymentStatus.PAID,
+    from: new Date(),
+    to: new Date(new Date().setMonth(new Date().getMonth() + 1)),
     paidAt: new Date(),
   },
 ];

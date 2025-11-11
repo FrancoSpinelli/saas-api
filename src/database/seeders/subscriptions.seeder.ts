@@ -8,7 +8,7 @@ export const subscriptionsMock = [
     service: "64a1f3b2e4c5d6f700000031",
     startDate: new Date(),
     endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
-    paid: false,
+    lastPaymentDate: new Date(),
   },
   {
     _id: "64a1f3b2e4c5d6f700000042",
@@ -17,7 +17,7 @@ export const subscriptionsMock = [
     service: "64a1f3b2e4c5d6f700000032",
     startDate: new Date(),
     endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
-    paid: false,
+    lastPaymentDate: new Date(),
   },
 ];
 

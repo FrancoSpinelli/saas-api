@@ -9,3 +9,7 @@ export const getPayments = () => {
 export const getPaymentById = (id: string) => {
   return paymentRepository.findById(id);
 };
+
+export const getPaymentsByUserId = (userId: string) => {
+  return paymentRepository.findAll({ client: userId });
+};

@@ -1,4 +1,5 @@
-import { Schema, model, Document } from "mongoose";
+import { Document, Schema, model } from "mongoose";
+import { SubscriptionStatus } from "../../enum/subscription-status.enum";
 
 export interface SubscriptionDocument extends Document {
   id: string;
@@ -7,8 +8,8 @@ export interface SubscriptionDocument extends Document {
   service: Schema.Types.ObjectId;
   startDate: Date;
   endDate: Date;
-  paid: boolean;
-  active: boolean;
+  status: SubscriptionStatus;
+  lastPaymentDate?: Date;
 }
 
 const subscriptionSchema = new Schema(
@@ -18,8 +19,12 @@ const subscriptionSchema = new Schema(
     service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    paid: { type: Boolean, default: false },
-    active: { type: Boolean, default: true },
+    status: {
+      type: String,
+      enum: Object.values(SubscriptionStatus),
+      default: SubscriptionStatus.ACTIVE,
+    },
+    lastPaymentDate: { type: Date },
   },
   {
     timestamps: true,

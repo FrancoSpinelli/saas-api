@@ -6,7 +6,7 @@ export interface SignInDto extends z.infer<typeof SignInSchema> {}
 export interface SignUpDto extends z.infer<typeof SignUpSchema> {}
 
 export interface LoggedUser extends Omit<SignUpDto, "password"> {
-  id: string;
+  _id: string;
   token: string;
   role: Role;
 }

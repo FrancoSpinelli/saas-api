@@ -30,3 +30,11 @@ export const activeUserToggle = async (id: string) => {
   }
   return userRepository.update(id, { active: !user.active });
 };
+
+export const deleteUser = async (id: string) => {
+  const user = await userRepository.findById(id);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return userRepository.delete(id);
+};

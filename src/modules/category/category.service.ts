@@ -34,3 +34,7 @@ export const activeCategoryToggle = async (id: string) => {
 export const deleteCategory = async (id: string) => {
   return categoryRepository.delete(id);
 };
+
+export const categoryExists = async (createCategoryDto: Partial<CreateCategoryDto>) => {
+  return categoryRepository.findOne(createCategoryDto);
+};

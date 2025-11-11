@@ -34,3 +34,7 @@ export const activePlanToggle = async (id: string) => {
 export const deletePlan = async (id: string) => {
   return planRepository.delete(id);
 };
+
+export const planExists = async (createPlanDto: Partial<CreatePlanDto>) => {
+  return planRepository.findOne(createPlanDto);
+};

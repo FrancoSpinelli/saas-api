@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { env } from "../config";
+import { Role } from "../enum";
+import { UserDocument } from "../modules/users/user.model";
 import { getUserById } from "../modules/users/user.service";
 import { Res } from "../utils/Response";
 
 export interface AuthenticatedRequest extends Request {
-  user?: any;
+  user?: UserDocument;
+  isAdmin?: boolean;
 }
 
 const JWT_SECRET = env.JWT_SECRET;
@@ -24,11 +27,12 @@ export async function authMiddleware(req: AuthenticatedRequest, res: Response, n
 
   try {
     const payload = jwt.verify(token, JWT_SECRET) as JwtPayload;
-    req.user = getUserById(payload.id);
-    if (!req.user) {
+    const user = await getUserById(payload._id);
+    if (!user) {
       return res.status(401).json(new Res(null, UnauthorizedMessage, false));
     }
-
+    req.user = user;
+    req.isAdmin = user.role === Role.ADMIN;
     return next();
   } catch (err) {
     return res.status(401).json(new Res(null, invalidTokenMessage, false));

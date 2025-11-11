@@ -20,6 +20,16 @@ export const activeUserToggle = async (req: Request, res: Response) => {
     await userService.activeUserToggle(id);
     res.status(200).json(new Res(null, "Actividad del usuario actualizada con éxito"));
   } catch (error) {
-    res.status(404).json(new Res(null, (error as Error).message, false));
+    res.status(404).json(new Res(null, "Error al actualizar la actividad del usuario", false));
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  try {
+    await userService.deleteUser(userId);
+    res.status(200).json(new Res(null, "Usuario eliminado con éxito"));
+  } catch (error) {
+    res.status(404).json(new Res(null, "Error al eliminar el usuario", false));
   }
 };

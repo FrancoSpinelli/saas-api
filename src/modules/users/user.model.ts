@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { Role } from "../../enum";
 
 export interface UserDocument extends Document {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;

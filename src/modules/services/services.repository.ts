@@ -3,7 +3,6 @@ import { BaseRepository } from "../../database/base.repository";
 import "../plan/plan.model";
 import { ServiceDocument, ServiceModel } from "./services.model";
 
-
 export class ServiceRepository extends BaseRepository<ServiceDocument> {
   constructor() {
     super(ServiceModel);
@@ -12,6 +11,15 @@ export class ServiceRepository extends BaseRepository<ServiceDocument> {
   async findAll(filter: FilterQuery<ServiceDocument> = {}) {
     return this.model
       .find(filter)
+      .populate("plans")
+      .populate("category")
+      .populate("owner", "firstName lastName email role")
+      .exec();
+  }
+
+  async findById(id: string): Promise<ServiceDocument | null> {
+    return this.model
+      .findById(id)
       .populate("plans")
       .populate("category")
       .populate("owner", "firstName lastName email role")

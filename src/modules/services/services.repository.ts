@@ -1,6 +1,6 @@
 import { FilterQuery } from "mongoose";
 import { BaseRepository } from "../../database/base.repository";
-import "../plans/plans.model";
+import "../plan/plan.model";
 import { ServiceDocument, ServiceModel } from "./services.model";
 
 

@@ -1,5 +1,5 @@
 import { Currency, Period } from "../../enum";
-import { PlanModel } from "../../modules/plans/plans.model";
+import { PlanModel } from "../../modules/plan/plan.model";
 
 export const plansMock = [
   {

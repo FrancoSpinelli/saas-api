@@ -13,7 +13,7 @@ import { authMiddleware } from "./middleware";
 import authRouter from "./modules/auth/auth.route";
 import categoryRouter from "./modules/category/category.route";
 import paymentRouter from "./modules/payments/payments.route";
-import planRouter from "./modules/plans/plans.route";
+import planRouter from "./modules/plan/plan.route";
 import serviceRouter from "./modules/services/services.route";
 import subscriptionRouter from "./modules/subscriptions/subscription.route";
 import userRouter from "./modules/users/users.route";

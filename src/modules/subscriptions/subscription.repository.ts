@@ -1,7 +1,7 @@
 import { FilterQuery } from "mongoose";
 import { BaseRepository } from "../../database/base.repository";
 import { SubscriptionDocument, SubscriptionModel } from "./subscription.model";
-import "../plans/plans.model";
+import "../plan/plan.model";
 import "../services/services.model";
 import "../users/user.model";
 

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Res } from "../../utils/Response";
+import { CategoryDocument } from "../category/category.model";
 import { UserDocument } from "../users/user.model";
 import { CreateServiceDto, UpdateServiceDto } from "./service.schema";
 import * as servicesService from "./services.service";
@@ -13,6 +14,19 @@ export const getServiceById = async (req: Request, res: Response) => {
   const serviceId = req.params.id;
   const service = await servicesService.getServiceById(serviceId);
   return res.status(200).json(new Res(service, "Servicio obtenido con éxito"));
+};
+
+export const getInterestedServices = async (req: Request, res: Response) => {
+  const user = req.user as UserDocument;
+  try {
+    const categoriesIds = user?.interests.map((interest: CategoryDocument) => interest._id) || [];
+    const services = await servicesService.getServicesByInterestedCategories(
+      categoriesIds as string[]
+    );
+    return res.status(200).json(new Res(services, "Servicios de interés obtenidos con éxito"));
+  } catch (error) {
+    return res.status(400).json(new Res(null, "Error al obtener los servicios de interés", false));
+  }
 };
 
 export const createService = async (req: Request, res: Response) => {

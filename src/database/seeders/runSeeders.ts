@@ -12,7 +12,6 @@ dotenv.config();
 export const runSeeders = async () => {
   try {
     const url = process.env.MONGO_URI!;
-    console.log("🚀 ~ runSeeders ~ url:", url);
     await mongoose.connect(url);
 
     await seedUsers();

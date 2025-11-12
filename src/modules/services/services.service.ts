@@ -11,6 +11,14 @@ export const getServiceById = (id: string) => {
   return serviceRepository.findById(id);
 };
 
+export const getServiceByUserId = (id: string) => {
+  return serviceRepository.findAll({ client: id });
+};
+
+export const getServicesByInterestedCategories = (categories: string[]) => {
+  return serviceRepository.findAll({ category: { $in: categories } });
+};
+
 export const createService = async (service: CreateServiceDto) => {
   return serviceRepository.create(service as any);
 };

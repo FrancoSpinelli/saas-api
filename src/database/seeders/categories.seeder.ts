@@ -19,6 +19,18 @@ export const categoriesMock = [
     description: "Plataforma de cursos en línea",
     image: "",
   },
+  {
+    _id: "64a1f3b2e4c5d6f700000014",
+    name: "Consultoría",
+    description: "Servicios de consultoría tecnológica",
+    image: "",
+  },
+  {
+    _id: "64a1f3b2e4c5d6f700000015",
+    name: "Diseño",
+    description: "Servicios de diseño gráfico y UX/UI",
+    image: "",
+  },
 ];
 
 export async function seedCategories() {

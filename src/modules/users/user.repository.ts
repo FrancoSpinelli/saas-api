@@ -16,6 +16,10 @@ export class UserRepository extends BaseRepository<UserDocument> {
       .select("+password")
       .lean() as Promise<UserDocument | null>;
   }
+
+  async findById(id: string): Promise<UserDocument | null> {
+    return this.model.findById(id).populate("interests").lean() as Promise<UserDocument | null>;
+  }
 }
 
 export const userRepository = new UserRepository();

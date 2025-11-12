@@ -21,7 +21,7 @@ export class PaymentRepository extends BaseRepository<PaymentDocument> {
           { path: "client", select: "firstName lastName email role", model: "User" },
         ],
       })
-      .exec();
+      .exec() as Promise<PaymentDocument[]>;
   }
 }
 

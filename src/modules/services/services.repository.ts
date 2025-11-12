@@ -13,8 +13,8 @@ export class ServiceRepository extends BaseRepository<ServiceDocument> {
       .find(filter)
       .populate("plans")
       .populate("category")
-      .populate("owner", "firstName lastName email role")
-      .exec();
+      .populate("owner", "firstName lastName email role image createdAt")
+      .exec() as Promise<ServiceDocument[]>;
   }
 
   async findById(id: string): Promise<ServiceDocument | null> {
@@ -22,8 +22,8 @@ export class ServiceRepository extends BaseRepository<ServiceDocument> {
       .findById(id)
       .populate("plans")
       .populate("category")
-      .populate("owner", "firstName lastName email role")
-      .exec();
+      .populate("owner", "firstName lastName email role image active createdAt")
+      .lean() as Promise<ServiceDocument | null>;
   }
 }
 

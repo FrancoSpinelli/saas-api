@@ -3,6 +3,7 @@ import {
   activeServiceToggle,
   createService,
   deleteService,
+  getInterestedServices,
   getServiceById,
   getServices,
   updateService,
@@ -11,6 +12,7 @@ import {
 const servicesRouter = express.Router();
 
 servicesRouter.get("/", getServices);
+servicesRouter.get("/interested", getInterestedServices);
 servicesRouter.get("/:id", getServiceById);
 servicesRouter.post("/", createService);
 servicesRouter.put("/:id", updateService);

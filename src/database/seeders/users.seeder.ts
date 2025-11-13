@@ -1,7 +1,17 @@
 import { Role } from "../../enum";
 import { UserModel } from "../../modules/users/user.model";
+import { categoriesMock } from "./categories.seeder";
 
 export const usersMock = [
+  {
+    _id: "64a1f3b2e4c5d6f700000000",
+    firstName: "Franco",
+    lastName: "Spinelli",
+    email: "franco.spinelli@alu.inspt.utn.edu.ar",
+    password: "$2b$10$G0AHYdhIV36QDzmav422BOVLpxZPERMGROM.tua1JqdI88.nbThVq",
+    image: "https://i.pravatar.cc/300?img=4",
+    role: Role.ADMIN,
+  },
   {
     _id: "64a1f3b2e4c5d6f700000001",
     firstName: "Franco",
@@ -18,6 +28,7 @@ export const usersMock = [
     email: "santilongo@gmail.com",
     password: "$2b$10$Mk0HHLT7nP0HdM8L.P1bYe/TwNq3XkJX0JK0J2CV0KiI7QulRKQ7W",
     image: "https://i.pravatar.cc/300?img=2",
+    interests: [categoriesMock[0]._id, categoriesMock[2]._id],
     role: Role.CLIENT,
   },
   {
@@ -27,6 +38,7 @@ export const usersMock = [
     email: "enzoolmedo@gmail.com",
     password: "$2b$10$Mk0HHLT7nP0HdM8L.P1bYe/TwNq3XkJX0JK0J2CV0KiI7QulRKQ7W",
     image: "https://i.pravatar.cc/300?img=3",
+    interests: [categoriesMock[1]._id],
     role: Role.CLIENT,
   },
   {
@@ -36,6 +48,7 @@ export const usersMock = [
     email: "tomasvignau@gmail.com",
     password: "$2b$10$Mk0HHLT7nP0HdM8L.P1bYe/TwNq3XkJX0JK0J2CV0KiI7QulRKQ7W",
     image: "https://i.pravatar.cc/300?img=4",
+    interests: [categoriesMock[3]._id, categoriesMock[4]._id],
     role: Role.CLIENT,
   },
 ];

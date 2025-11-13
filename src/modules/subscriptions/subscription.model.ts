@@ -1,11 +1,14 @@
 import { Document, Schema, model } from "mongoose";
 import { SubscriptionStatus } from "../../enum/subscription-status.enum";
+import { UserDocument } from "../users/user.model";
+import { PlanDocument } from "../plan/plan.model";
+import { ServiceDocument } from "../services/services.model";
 
 export interface SubscriptionDocument extends Document {
   id: string;
-  client: Schema.Types.ObjectId;
-  plan: Schema.Types.ObjectId;
-  service: Schema.Types.ObjectId;
+  client: UserDocument;
+  plan: PlanDocument;
+  service: ServiceDocument;
   startDate: Date;
   endDate: Date;
   status: SubscriptionStatus;

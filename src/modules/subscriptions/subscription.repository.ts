@@ -15,7 +15,7 @@ export class SubscriptionRepository extends BaseRepository<SubscriptionDocument>
     return this.model
       .find(filter)
       .populate("plan")
-      .populate("client", "firstName lastName email role image createdAt", "User")
+      .populate("client", "firstName lastName email role image paymentMethod createdAt", "User")
       .populate({
         path: "service",
         populate: [{ path: "category", select: "_id name description", model: "Category" }],

@@ -11,6 +11,10 @@ export const getServiceById = (id: string) => {
   return serviceRepository.findById(id);
 };
 
+export const getActiveServices = () => {
+  return serviceRepository.findAll({ active: true });
+};
+
 export const getServiceByUserId = (id: string) => {
   return serviceRepository.findAll({ client: id });
 };

@@ -16,6 +16,11 @@ export const getServiceById = async (req: Request, res: Response) => {
   return res.status(200).json(new Res(service, "Servicio obtenido con éxito"));
 };
 
+export const getActiveServices = async (req: Request, res: Response) => {
+  const services = await servicesService.getActiveServices();
+  return res.status(200).json(new Res(services, "Servicios activos obtenidos con éxito"));
+};
+
 export const getInterestedServices = async (req: Request, res: Response) => {
   const user = req.user as UserDocument;
   try {

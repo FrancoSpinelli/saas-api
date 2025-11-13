@@ -20,7 +20,7 @@ export const subscriptionsMock = [
     startDate: new Date("2025-11-10T00:00:00Z"),
     endDate: new Date("2025-12-10T00:00:00Z"),
     lastPaymentDate: null,
-    status: SubscriptionStatus.PENDING_PAYMENT,
+    status: SubscriptionStatus.ACTIVE,
   },
   {
     _id: "64a1f3b2e4c5d6f700000043",

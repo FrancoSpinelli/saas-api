@@ -19,10 +19,10 @@ export const paymentsMock = [
     plan: "64a1f3b2e4c5d6f700000022",
     client: "64a1f3b2e4c5d6f700000003",
     method: PaymentMethod.BANK_TRANSFER,
-    status: PaymentStatus.PENDING,
+    status: PaymentStatus.PAID,
     from: new Date("2025-11-10T00:00:00Z"),
     to: new Date("2025-12-10T00:00:00Z"),
-    paidAt: null,
+    paidAt: new Date("2025-11-12T00:00:00Z"),
   },
   {
     _id: "64a1f3b2e4c5d6f700000053",

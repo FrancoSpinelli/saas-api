@@ -1,4 +1,5 @@
 import express from "express";
+import isAdmin from "../../middleware/isAdmin.middleware";
 import {
   activeServiceToggle,
   createService,
@@ -7,16 +8,19 @@ import {
   getServiceById,
   getServices,
   updateService,
+  getActiveServices,
 } from "./services.controller";
 
 const servicesRouter = express.Router();
 
-servicesRouter.get("/", getServices);
 servicesRouter.get("/interested", getInterestedServices);
+servicesRouter.get("/active", getActiveServices);
 servicesRouter.get("/:id", getServiceById);
-servicesRouter.post("/", createService);
-servicesRouter.put("/:id", updateService);
-servicesRouter.patch("/:id/activeToggle", activeServiceToggle);
-servicesRouter.delete("/:id", deleteService);
+
+servicesRouter.get("/", isAdmin, getServices);
+servicesRouter.post("/", isAdmin, createService);
+servicesRouter.put("/:id", isAdmin, updateService);
+servicesRouter.patch("/:id/activeToggle", isAdmin, activeServiceToggle);
+servicesRouter.delete("/:id", isAdmin, deleteService);
 
 export default servicesRouter;

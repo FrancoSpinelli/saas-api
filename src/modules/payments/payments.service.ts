@@ -1,3 +1,4 @@
+import { PaymentDocument } from "./payments.model";
 import { PaymentRepository } from "./payments.repository";
 
 const paymentRepository = new PaymentRepository();
@@ -12,4 +13,8 @@ export const getPaymentById = (id: string) => {
 
 export const getPaymentsByUserId = (userId: string) => {
   return paymentRepository.findAll({ client: userId });
+};
+
+export const createPayment = (paymentData: Partial<PaymentDocument>) => {
+  return paymentRepository.create(paymentData);
 };

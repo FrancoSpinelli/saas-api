@@ -9,9 +9,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const MONGO_URI = process.env.MONGO_URI!;
+const MONGO_DB_NAME = process.env.MONGO_DB_NAME!;
+
 export const unseedData = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await mongoose.connect(MONGO_URI, {
+      dbName: MONGO_DB_NAME,
+    });
     console.log("🔗 Connected to MongoDB");
 
     await unseedPayments();

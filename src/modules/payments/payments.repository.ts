@@ -21,6 +21,7 @@ export class PaymentRepository extends BaseRepository<PaymentDocument> {
           { path: "client", select: "firstName lastName email role", model: "User" },
         ],
       })
+      .sort({ paidAt: -1 })
       .exec() as Promise<PaymentDocument[]>;
   }
 }

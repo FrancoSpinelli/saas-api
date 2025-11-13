@@ -9,6 +9,7 @@ import { Res } from "./utils/Response";
 import * as z from "zod";
 import { es } from "zod/locales";
 import { connectMongo } from "./database/connection";
+import { startPaySubscriptionsJob } from "./jobs";
 import { authMiddleware } from "./middleware";
 import authRouter from "./modules/auth/auth.route";
 import categoryRouter from "./modules/category/category.route";
@@ -36,6 +37,8 @@ app.use(function (req, res, next) {
   }
   next();
 });
+
+startPaySubscriptionsJob();
 
 app.use(logger("dev"));
 app.use(express.json());

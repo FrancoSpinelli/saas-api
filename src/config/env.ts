@@ -5,7 +5,7 @@ const envSchema = z.object({
   PORT: z.string().transform(Number).default(3000),
   JWT_SECRET: z.string().min(8, "El secreto JWT debe tener al menos 8 caracteres"),
   MONGO_URI: z.string(),
-  MONGO_DB_NAME: z.string().min(1),
+  MONGO_DB_NAME: z.string().min(1).default("saas_db"),
 });
 
 const _env = envSchema.safeParse(process.env);

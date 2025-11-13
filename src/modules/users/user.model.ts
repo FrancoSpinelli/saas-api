@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Role } from "../../enum";
+import { PaymentMethod, Role } from "../../enum";
 import { CategoryDocument } from "../category/category.model";
 
 export interface UserDocument extends Document {
@@ -12,6 +12,7 @@ export interface UserDocument extends Document {
   active: boolean;
   image: string;
   description?: string;
+  paymentMethod: PaymentMethod;
   interests: CategoryDocument[];
   createdAt: Date;
 }
@@ -26,6 +27,7 @@ const userSchema = new Schema(
     image: { type: String, default: "" },
     active: { type: Boolean, default: true },
     description: { type: String, default: "" },
+    paymentMethod: { type: String, enum: PaymentMethod, default: PaymentMethod.BANK_TRANSFER },
     interests: [{ type: Schema.Types.ObjectId, ref: "Category", default: [] }],
     createdAt: { type: Date, default: Date.now },
   },

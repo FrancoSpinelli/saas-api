@@ -13,7 +13,7 @@ export class ServiceRepository extends BaseRepository<ServiceDocument> {
       .find(filter)
       .populate("plans")
       .populate("category")
-      .populate("owner", "firstName lastName email role image createdAt")
+      .populate("owner", "firstName lastName email role image active paymentMethod createdAt")
       .exec() as Promise<ServiceDocument[]>;
   }
 
@@ -22,7 +22,7 @@ export class ServiceRepository extends BaseRepository<ServiceDocument> {
       .findById(id)
       .populate("plans")
       .populate("category")
-      .populate("owner", "firstName lastName email role image active createdAt")
+      .populate("owner", "firstName lastName email role image active paymentMethod createdAt")
       .lean() as Promise<ServiceDocument | null>;
   }
 }

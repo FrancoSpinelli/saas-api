@@ -66,18 +66,21 @@ npm install
 ```
 
 3. **Configurar variables de entorno**
-Copiar el archivo `.env.example` a `.env` y ajustar las variables según tu entorno:
+Copiar el archivo `.env.example` a `.env`
 
 ```
 cp .env.example .env
 ```
 
+Ajustar las variables en `.env` según tu entorno (opcional)
 ```env
+// Ejemplo de .env
 NODE_ENV=development
 PORT=3000
 JWT_SECRET=tu_jwt_secret_muy_seguro_aqui
 MONGO_URI=mongodb://root:1234@localhost:27017
 MONGO_DB_NAME=saas_db
+CLIENT_URL=http://localhost:5173
 ```
 
 4. **Iniciar MongoDB (con Docker)**
@@ -94,10 +97,23 @@ npm run seed
 ```bash
 # Desarrollo
 npm run dev
+```
 
+```bash
 # Producción
 npm run build
 npm start
+```
+
+### Usuarios de Prueba
+```javascript
+// Admin
+email: francospinelli2903@gmail.com
+password: 1234
+
+// Cliente
+email: santilongo@gmail.com
+password: 1234
 ```
 
 ## 📚 API Endpoints
@@ -175,17 +191,6 @@ Authorization: Bearer <jwt_token>
 - **Admin**: Acceso completo a todos los recursos
 - **Client**: Acceso limitado a sus propios datos
 
-### Usuarios de Prueba
-```javascript
-// Admin
-email: francospinelli2903@gmail.com
-password: 1234
-
-// Cliente
-email: santilongo@gmail.com
-password: 1234
-```
-
 ## 🤖 Jobs Automáticos
 
 Para simular pagos automáticos y gestión de suscripciones, el sistema incluye jobs programados para:
@@ -213,6 +218,7 @@ PORT=3000
 JWT_SECRET=<secreto_jwt_seguro>
 MONGO_URI=<uri_conexion_mongodb>
 MONGO_DB_NAME=<nombre_base_datos>
+CLIENT_URL=<url_cliente_frontend>
 ```
 
 ### Docker Compose
@@ -239,6 +245,7 @@ El sistema incluye seeders completos con:
 - 2 suscripciones activas
 - 1 suscripción expirada
 - 3 registros de pagos
+- 3 registros de notificaciones
 
 ## 📄 Licencia
 

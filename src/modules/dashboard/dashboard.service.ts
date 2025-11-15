@@ -31,7 +31,7 @@ export const getDashboardInfo = async (): Promise<DashboardData> => {
     };
 
     return dashboardData;
-  } catch (error) {
+  } catch {
     throw new Error("Failed to get dashboard data");
   }
 };

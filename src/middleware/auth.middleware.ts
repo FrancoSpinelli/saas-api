@@ -32,9 +32,10 @@ export async function authMiddleware(req: AuthenticatedRequest, res: Response, n
       return res.status(401).json(new Res(null, UnauthorizedMessage, false));
     }
     req.user = user;
+    req.userId = String(user._id);
     req.isAdmin = user.role === Role.ADMIN;
     return next();
-  } catch (err) {
+  } catch {
     return res.status(401).json(new Res(null, invalidTokenMessage, false));
   }
 }

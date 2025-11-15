@@ -1,4 +1,4 @@
-import { FilterQuery, Model, UpdateQuery } from "mongoose";
+import { FilterQuery, Model, PipelineStage, UpdateQuery } from "mongoose";
 
 export type Options = {
   limit?: number;
@@ -17,10 +17,7 @@ export class BaseRepository<T> {
     return created.save() as Promise<T>;
   }
 
-  async findAll(
-    filter: FilterQuery<T> = {},
-    options: Options = {}
-  ): Promise<T[]> {
+  async findAll(filter: FilterQuery<T> = {}, options: Options = {}): Promise<T[]> {
     const query = this.model.find(filter);
 
     if (options.sort) query.sort(options.sort);
@@ -54,7 +51,7 @@ export class BaseRepository<T> {
     return this.model.countDocuments(filter).exec();
   }
 
-  async aggregate<R = unknown>(pipeline: any[]): Promise<R[]> {
-    return this.model.aggregate(pipeline).exec();
+  async aggregate<R = unknown>(pipeline: PipelineStage[]): Promise<R[]> {
+    return this.model.aggregate(pipeline).exec() as Promise<R[]>;
   }
 }

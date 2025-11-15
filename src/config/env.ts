@@ -6,6 +6,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(8, "El secreto JWT debe tener al menos 8 caracteres"),
   MONGO_URI: z.string(),
   MONGO_DB_NAME: z.string().min(1).default("saas_db"),
+  CLIENT_URL: z.string().default("http://localhost:5173"),
 });
 
 const _env = envSchema.safeParse(process.env);

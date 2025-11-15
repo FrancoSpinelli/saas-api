@@ -1,11 +1,12 @@
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { unseedCategories } from "./categories.seeder";
+import { unseedNotifications } from "./notifications.seeder";
 import { unseedPayments } from "./payments.seeder";
 import { unseedPlans } from "./plans.seeder";
 import { unseedServices } from "./services.seeder";
 import { unseedSubscriptions } from "./subscriptions.seeder";
 import { unseedUsers } from "./users.seeder";
-import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -25,7 +26,8 @@ export const unseedData = async () => {
     await unseedPlans();
     await unseedCategories();
     await unseedUsers();
-
+    await unseedNotifications();
+    
     console.log("🗑️✅ All data removed");
   } catch (err) {
     console.error("❌ Unseeding error:", err);

@@ -1,4 +1,4 @@
-import mongoose, { FilterQuery, Types } from "mongoose";
+import { FilterQuery } from "mongoose";
 import { BaseRepository, Options } from "../../database/base.repository";
 import "../category/category.model";
 import "../plan/plan.model";

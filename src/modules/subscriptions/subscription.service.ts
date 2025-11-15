@@ -1,14 +1,17 @@
-import { } from "mongoose";
-import { PaymentStatus, Period } from "../../enum";
+import {} from "mongoose";
+import {
+  NotificationMessage,
+  NotificationReferenceType,
+  NotificationType,
+  PaymentStatus,
+  Period,
+} from "../../enum";
 import { SubscriptionStatus } from "../../enum/subscription-status.enum";
+import { createNotification } from "../notification/notification.service";
 import { PaymentDocument } from "../payments/payments.model";
-import {
-  createPayment
-} from "../payments/payments.service";
+import { createPayment } from "../payments/payments.service";
 import { getPlanById } from "../plan/plan.service";
-import {
-  getServiceById
-} from "../services/services.service";
+import { getServiceById } from "../services/services.service";
 import { SubscriptionDocument } from "./subscription.model";
 import { SubscriptionRepository } from "./subscription.repository";
 import { CreateSubscriptionDto } from "./subscription.schema";
@@ -31,8 +34,17 @@ export const getPendingPaymentSubscriptions = () => {
   return subscriptionRepository.findAll({ status: SubscriptionStatus.PENDING_PAYMENT });
 };
 
-export const renewSubscription = (subscriptionId: string) => {
-  return subscriptionRepository.update(subscriptionId, { status: SubscriptionStatus.ACTIVE });
+export const renewSubscription = async (subscription: SubscriptionDocument) => {
+  await createNotification({
+    type: NotificationType.SUBSCRIPTIONS_ACTIVE,
+    message: NotificationMessage.SUBSCRIPTION_ACTIVE,
+    client: String(subscription.client._id),
+    referenceType: NotificationReferenceType.SERVICE,
+    referenceId: String(subscription.service._id),
+  });
+  return subscriptionRepository.update(String(subscription._id), {
+    status: SubscriptionStatus.ACTIVE,
+  });
 };
 
 export const createSubscription = async (subscriptionData: CreateSubscriptionDto) => {
@@ -50,11 +62,29 @@ export const createSubscription = async (subscriptionData: CreateSubscriptionDto
     endDate: calculateEndDate(new Date(), plan.period),
     status: SubscriptionStatus.PENDING_PAYMENT,
   };
+
+  await createNotification({
+    client: subscriptionData.client,
+    type: NotificationType.SUBSCRIPTIONS_PENDING,
+    referenceType: NotificationReferenceType.SERVICE,
+    referenceId: String(subscriptionData.serviceId),
+    message: NotificationMessage.SUBSCRIPTION_PENDING,
+  });
+
   return subscriptionRepository.create(subscription);
 };
 
-export const cancelSubscription = (subscriptionId: string) => {
-  return subscriptionRepository.update(subscriptionId, { status: SubscriptionStatus.CANCELED });
+export const cancelSubscription = async (subscription: SubscriptionDocument) => {
+  await createNotification({
+    client: String(subscription.client._id),
+    type: NotificationType.SUBSCRIPTIONS_CANCELED,
+    referenceType: NotificationReferenceType.SERVICE,
+    referenceId: String(subscription.service._id),
+    message: NotificationMessage.SUBSCRIPTION_CANCELED,
+  });
+  return subscriptionRepository.update(String(subscription._id), {
+    status: SubscriptionStatus.CANCELED,
+  });
 };
 
 export const inactivateSubscription = (id: string) => {
@@ -76,6 +106,21 @@ export const paidSubscription = async (subscription: SubscriptionDocument) => {
 
   await createPayment(newPayment as unknown as Partial<PaymentDocument>);
 
+  await createNotification({
+    client: subscription.client._id,
+    type: NotificationType.PAYMENTS_SUCCESS,
+    referenceType: NotificationReferenceType.PAYMENT,
+    message: NotificationMessage.PAYMENT_SUCCESS,
+  });
+
+  await createNotification({
+    type: NotificationType.SUBSCRIPTIONS_ACTIVE,
+    message: NotificationMessage.SUBSCRIPTION_ACTIVE,
+    client: String(subscription.client._id),
+    referenceType: NotificationReferenceType.SERVICE,
+    referenceId: String(subscription.service._id),
+  });
+
   return subscriptionRepository.update(String(subscription._id), {
     status: SubscriptionStatus.ACTIVE,
     lastPaymentDate: new Date(),
@@ -91,6 +136,10 @@ export const getCountSubscriptions = (status?: SubscriptionStatus): Promise<numb
     return subscriptionRepository.count();
   }
   return subscriptionRepository.count({ status });
+};
+
+export const getSubscriptorsByService = (serviceId: string): Promise<SubscriptionDocument[]> => {
+  return subscriptionRepository.findAll({ service: serviceId, status: SubscriptionStatus.ACTIVE });
 };
 
 function calculateEndDate(startDate: Date, period: Period): Date {

@@ -38,3 +38,8 @@ export const deletePlan = async (id: string) => {
 export const planExists = async (createPlanDto: Partial<CreatePlanDto>) => {
   return planRepository.findOne(createPlanDto);
 };
+
+export const isPlanInUse = async (planId: string) => {
+  const count = await planRepository.count({ _id: planId });
+  return count > 0;
+};

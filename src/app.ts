@@ -11,14 +11,17 @@ import { es } from "zod/locales";
 import { connectMongo } from "./database/connection";
 import { startPaySubscriptionsJob } from "./jobs";
 import { authMiddleware } from "./middleware";
+import { responseLogger } from "./middleware/responseLogger.middleware";
 import authRouter from "./modules/auth/auth.route";
 import categoryRouter from "./modules/category/category.route";
 import dashboardRouter from "./modules/dashboard/dashboard.route";
+import notificationRouter from "./modules/notification/notification.route";
 import paymentRouter from "./modules/payments/payments.route";
 import planRouter from "./modules/plan/plan.route";
 import serviceRouter from "./modules/services/services.route";
 import subscriptionRouter from "./modules/subscriptions/subscription.route";
 import userRouter from "./modules/users/users.route";
+import { initSocket } from "./socket/config";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -47,6 +50,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(responseLogger);
+
 app.use("/auth", authRouter);
 
 app.use(authMiddleware);
@@ -58,14 +63,16 @@ app.use("/payments", paymentRouter);
 app.use("/subscriptions", subscriptionRouter);
 app.use("/plans", planRouter);
 app.use("/dashboard", dashboardRouter);
-  
-app.use(function (_, res, next) {
+app.use("/notifications", notificationRouter);
+
+app.use(function (_, res) {
   return res.status(404).json(new Res(null, "Recurso no encontrado"));
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
+initSocket(server);
 
 export default app;

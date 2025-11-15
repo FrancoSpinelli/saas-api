@@ -6,6 +6,7 @@ import { seedServices } from "./services.seeder";
 import { seedSubscriptions } from "./subscriptions.seeder";
 import { seedUsers } from "./users.seeder";
 import dotenv from "dotenv";
+import { seedNotifications } from "./notifications.seeder";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ export const runSeeders = async () => {
     await seedServices();
     await seedSubscriptions();
     await seedPayments();
+    await seedNotifications();
 
     console.log("✅ All seeded");
   } catch (error) {

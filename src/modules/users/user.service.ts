@@ -1,5 +1,7 @@
 import { Role } from "../../enum";
+import { getIO } from "../../socket/config";
 import { UserProfile } from "../auth/auth.dto";
+import { countUnreadNotifications } from "../notification/notification.service";
 import { getPaymentsByUserId } from "../payments/payments.service";
 import { getSubscriptionByUserId } from "../subscriptions/subscription.service";
 import { UserDocument } from "./user.model";
@@ -21,11 +23,13 @@ export const getUserProfile = async (id: string): Promise<UserProfile | null> =>
 
   const userPayments = await getPaymentsByUserId(id);
   const userSubscriptions = await getSubscriptionByUserId(id);
+  const unreadNotificationsCount = await countUnreadNotifications(id);
 
   const profile: UserProfile = {
     ...user,
     payments: userPayments,
     subscriptions: userSubscriptions,
+    unreadNotificationsCount,
   };
 
   return profile;
@@ -41,7 +45,7 @@ export const getUserByEmailToAuth = (email: string) => {
 
 export const getUserCountByRole = (role: Role) => {
   return userRepository.count({ role, active: true });
-}
+};
 
 export const createUser = (data: Partial<UserDocument>) => {
   return userRepository.create(data);
@@ -70,3 +74,13 @@ export const deleteUser = async (id: string) => {
   }
   return userRepository.delete(id);
 };
+
+
+export function notifyProfileUpdated(userId: string) {
+  const io = getIO();
+  io.emit("PROFILE_UPDATED", {
+    userId,
+    timestamp: new Date(),
+  });
+
+}

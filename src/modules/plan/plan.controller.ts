@@ -34,7 +34,7 @@ export const createPlan = async (req: Request, res: Response) => {
   try {
     const newPlan = await planService.createPlan(newPlanData);
     res.status(201).json(new Res(newPlan, "Plan creado con éxito"));
-  } catch (error) {
+  } catch {
     res.status(400).json(new Res(null, "Error al crear el plan", false));
   }
 };
@@ -57,7 +57,7 @@ export const updatePlan = async (req: Request, res: Response) => {
     }
     const newPlan = await planService.updatePlan(req.params.id, newPlanData);
     res.status(201).json(new Res(newPlan, "Plan actualizado con éxito"));
-  } catch (error) {
+  } catch {
     res.status(400).json(new Res(null, "Error al actualizar el plan", false));
   }
 };
@@ -75,6 +75,12 @@ export const activePlanToggle = async (req: Request, res: Response) => {
 export const deletePlan = async (req: Request, res: Response) => {
   const planId = req.params.id;
   try {
+    const isPlanInUse = await planService.isPlanInUse(planId);
+    if (isPlanInUse) {
+      return res
+        .status(200)
+        .json(new Res(null, "El plan está en uso y no se puede eliminar", false));
+    }
     await planService.deletePlan(planId);
     res.status(200).json(new Res(null, "Plan eliminado con éxito"));
   } catch (error) {

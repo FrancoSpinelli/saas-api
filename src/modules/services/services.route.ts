@@ -1,21 +1,22 @@
 import express from "express";
 import isAdmin from "../../middleware/isAdmin.middleware";
+import { noCache } from "../../middleware/noCache.middleware";
 import {
   activeServiceToggle,
   createService,
   deleteService,
+  getActiveServices,
   getInterestedServices,
   getServiceById,
   getServices,
   updateService,
-  getActiveServices,
 } from "./services.controller";
 
 const servicesRouter = express.Router();
 
 servicesRouter.get("/interested", getInterestedServices);
 servicesRouter.get("/active", getActiveServices);
-servicesRouter.get("/:id", getServiceById);
+servicesRouter.get("/:id", noCache, getServiceById);
 
 servicesRouter.get("/", isAdmin, getServices);
 servicesRouter.post("/", isAdmin, createService);

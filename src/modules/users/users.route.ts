@@ -11,10 +11,11 @@ import {
   getUsers,
   updateUserProfile,
 } from "./user.controller";
+import { noCache } from "../../middleware/noCache.middleware";
 
 const userRouter = express.Router();
 
-userRouter.get("/profile", getUserProfile);
+userRouter.get("/profile", noCache, getUserProfile);
 userRouter.patch("/:id", updateUserProfile);
 
 userRouter.get("/", isAdmin, getUsers);

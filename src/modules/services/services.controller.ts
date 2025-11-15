@@ -4,6 +4,7 @@ import { CategoryDocument } from "../category/category.model";
 import { UserDocument } from "../users/user.model";
 import { CreateServiceDto, UpdateServiceDto } from "./service.schema";
 import * as servicesService from "./services.service";
+import { getSubscriptorsByService } from "../subscriptions/subscription.service";
 
 export const getServices = async (req: Request, res: Response) => {
   const services = await servicesService.getServices();
@@ -29,7 +30,7 @@ export const getInterestedServices = async (req: Request, res: Response) => {
       categoriesIds as string[]
     );
     return res.status(200).json(new Res(services, "Servicios de interés obtenidos con éxito"));
-  } catch (error) {
+  } catch {
     return res.status(400).json(new Res(null, "Error al obtener los servicios de interés", false));
   }
 };
@@ -47,7 +48,7 @@ export const createService = async (req: Request, res: Response) => {
     }
     const newService = await servicesService.createService(newServiceData);
     return res.status(201).json(new Res(newService, "Servicio creado con éxito"));
-  } catch (error) {
+  } catch {
     return res.status(400).json(new Res(null, "Error al crear el servicio", false));
   }
 };
@@ -62,7 +63,7 @@ export const updateService = async (req: Request, res: Response) => {
     }
     const updatedService = await servicesService.updateService(req.params.id, updatedServiceData);
     return res.status(200).json(new Res(updatedService, "Servicio actualizado con éxito"));
-  } catch (error) {
+  } catch {
     return res.status(400).json(new Res(null, "Error al actualizar el servicio", false));
   }
 };
@@ -72,7 +73,7 @@ export const activeServiceToggle = async (req: Request, res: Response) => {
   try {
     await servicesService.activeServiceToggle(serviceId);
     res.status(200).json(new Res(null, "Actividad del servicio actualizada con éxito"));
-  } catch (error) {
+  } catch {
     res.status(404).json(new Res(null, "Error al actualizar la actividad del servicio", false));
   }
 };
@@ -80,9 +81,15 @@ export const activeServiceToggle = async (req: Request, res: Response) => {
 export const deleteService = async (req: Request, res: Response) => {
   const serviceId = req.params.id;
   try {
+    const serviceInUse = await getSubscriptorsByService(serviceId);
+    if (serviceInUse.length) {
+      return res
+        .status(200)
+        .json(new Res(null, "El servicio tiene suscriptores y no se puede eliminar", false));
+    }
     await servicesService.deleteService(serviceId);
     res.status(200).json(new Res(null, "Servicio eliminado con éxito"));
-  } catch (error) {
+  } catch {
     res.status(404).json(new Res(null, "Error al eliminar el servicio", false));
   }
 };

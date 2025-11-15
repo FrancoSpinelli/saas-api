@@ -1,4 +1,5 @@
 import { CreateServiceDto, UpdateServiceDto } from "./service.schema";
+import { ServiceDocument } from "./services.model";
 import { ServiceRepository } from "./services.repository";
 
 const serviceRepository = new ServiceRepository();
@@ -32,7 +33,7 @@ export const getTopSubscribedServices = () => {
 };
 
 export const createService = async (service: CreateServiceDto) => {
-  return serviceRepository.create(service as any);
+  return serviceRepository.create(service as unknown as Partial<ServiceDocument>);
 };
 
 export const updateService = async (id: string, service: UpdateServiceDto) => {

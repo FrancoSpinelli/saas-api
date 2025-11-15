@@ -15,7 +15,7 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const getUserProfile = async (req: Request, res: Response) => {
-  const userIdContext = String(req.user?._id);
+  const userIdContext = req.userId || "";
 
   try {
     const userProfile = await userService.getUserProfile(userIdContext);
@@ -24,7 +24,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
     }
 
     res.status(200).json(new Res(userProfile, "Perfil de usuario obtenido con éxito"));
-  } catch (error) {
+  } catch {
     res.status(404).json(new Res(null, "Error al obtener el perfil de usuario", false));
   }
 };
@@ -36,7 +36,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
   try {
     const updatedUser = await userService.updateProfile(userId, updateData);
     res.status(200).json(new Res(updatedUser, "Perfil de usuario actualizado con éxito"));
-  } catch (error) {
+  } catch {
     res.status(404).json(new Res(null, "Error al actualizar el perfil de usuario", false));
   }
 };
@@ -46,7 +46,7 @@ export const activeUserToggle = async (req: Request, res: Response) => {
   try {
     await userService.activeUserToggle(id);
     res.status(200).json(new Res(null, "Actividad del usuario actualizada con éxito"));
-  } catch (error) {
+  } catch {
     res.status(404).json(new Res(null, "Error al actualizar la actividad del usuario", false));
   }
 };
@@ -56,7 +56,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     await userService.deleteUser(userId);
     res.status(200).json(new Res(null, "Usuario eliminado con éxito"));
-  } catch (error) {
+  } catch {
     res.status(404).json(new Res(null, "Error al eliminar el usuario", false));
   }
 };

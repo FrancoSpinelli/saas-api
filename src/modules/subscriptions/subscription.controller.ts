@@ -27,11 +27,12 @@ export const createSubscription = async (req: Request, res: Response) => {
   const subscriptionData = req.body as CreateSubscriptionDto;
   subscriptionData.client = req.user!;
   const newSubscription = await subscriptionService.createSubscription(subscriptionData);
+
   res.status(201).json(new Res(newSubscription, "Suscripción creada con éxito"));
 };
 
 export const renewSubscription = async (req: Request, res: Response) => {
-  const clientId = String(req.user?._id);
+  const clientId = req.userId || "";
   const subscriptionId = req.params.id;
 
   const subscription = await subscriptionService.getSubscriptionById(subscriptionId);
@@ -42,7 +43,7 @@ export const renewSubscription = async (req: Request, res: Response) => {
   }
 
   if (subscription?.status === SubscriptionStatus.CANCELED) {
-    await subscriptionService.renewSubscription(subscriptionId);
+    await subscriptionService.renewSubscription(subscription);
   }
 
   if (subscription?.status === SubscriptionStatus.EXPIRED) {
@@ -58,17 +59,16 @@ export const renewSubscription = async (req: Request, res: Response) => {
 };
 
 export const cancelSubscription = async (req: Request, res: Response) => {
-  const clientId = String(req.user?._id);
+  const clientId = req.userId || "";
   const subscriptionId = req.params.id;
 
   const subscription = await subscriptionService.getSubscriptionById(subscriptionId);
-
-  if (String(subscription?.client) !== clientId) {
+  if (!subscription || String(subscription?.client) !== clientId) {
     return res
       .status(400)
       .json(new Res(null, "No tienes permiso para cancelar esta suscripción", false));
   }
-  await subscriptionService.cancelSubscription(subscriptionId);
+  await subscriptionService.cancelSubscription(subscription);
   res.status(200).json(new Res(null, "Suscripción cancelada con éxito"));
 };
 

@@ -5,8 +5,8 @@ import { PaymentDocument } from "../payments/payments.model";
 import { SubscriptionDocument } from "../subscriptions/subscription.model";
 import { SignInSchema, SignUpSchema } from "./auth.schema";
 
-export interface SignInDto extends z.infer<typeof SignInSchema> {}
-export interface SignUpDto extends z.infer<typeof SignUpSchema> {}
+export type SignInDto = z.infer<typeof SignInSchema>;
+export type SignUpDto = z.infer<typeof SignUpSchema>;
 
 export interface LoggedUser extends Omit<SignUpDto, "password"> {
   _id: string;
@@ -26,4 +26,5 @@ export interface UserProfile {
   subscriptions: SubscriptionDocument[];
   payments: PaymentDocument[];
   interests: CategoryDocument[];
+  unreadNotificationsCount: number;
 }

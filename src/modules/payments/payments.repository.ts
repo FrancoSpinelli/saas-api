@@ -1,5 +1,5 @@
 import { FilterQuery } from "mongoose";
-import { BaseRepository } from "../../database/base.repository";
+import { BaseRepository, Options } from "../../database/base.repository";
 import "../subscriptions/subscription.model";
 import { PaymentDocument, PaymentModel } from "./payments.model";
 
@@ -8,12 +8,12 @@ export class PaymentRepository extends BaseRepository<PaymentDocument> {
     super(PaymentModel);
   }
 
-  async findAll(filter: FilterQuery<PaymentDocument> = {}) {
+  async findAll(filter: FilterQuery<PaymentDocument> = {}, options: Options = {}) {
     return this.model
       .find(filter)
       .populate("subscription")
       .populate("plan")
-      .populate("client", "firstName lastName email role", "User")
+      .populate("client", "firstName lastName email role image", "User")
       .populate({
         path: "subscription",
         populate: [
@@ -22,6 +22,8 @@ export class PaymentRepository extends BaseRepository<PaymentDocument> {
         ],
       })
       .sort({ paidAt: -1 })
+      .limit(options.limit || 0)
+      .skip(options.skip || 0)
       .exec() as Promise<PaymentDocument[]>;
   }
 }

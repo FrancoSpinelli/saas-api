@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { SubscriptionStatus } from "../../enum/subscription-status.enum";
 import { Res } from "../../utils/Response";
 import { CreateSubscriptionDto } from "./subscription.schema";
 import * as subscriptionService from "./subscription.service";
@@ -34,13 +35,25 @@ export const renewSubscription = async (req: Request, res: Response) => {
   const subscriptionId = req.params.id;
 
   const subscription = await subscriptionService.getSubscriptionById(subscriptionId);
-
   if (String(subscription?.client) !== clientId) {
     return res
       .status(400)
       .json(new Res(null, "No tienes permiso para renovar esta suscripción", false));
   }
-  await subscriptionService.renewSubscription(subscriptionId);
+
+  if (subscription?.status === SubscriptionStatus.CANCELED) {
+    await subscriptionService.renewSubscription(subscriptionId);
+  }
+
+  if (subscription?.status === SubscriptionStatus.EXPIRED) {
+    const subscriptionData: CreateSubscriptionDto = {
+      planId: String(subscription?.plan._id),
+      serviceId: String(subscription?.service._id),
+      client: req.user!,
+    };
+    await subscriptionService.createSubscription(subscriptionData);
+  }
+
   res.status(200).json(new Res(null, "Suscripción renovada con éxito"));
 };
 

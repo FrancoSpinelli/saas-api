@@ -1,5 +1,10 @@
 import { FilterQuery, Model, UpdateQuery } from "mongoose";
 
+export type Options = {
+  limit?: number;
+  skip?: number;
+  sort?: { [key: string]: 1 | -1 };
+};
 export class BaseRepository<T> {
   protected model: Model<T>;
 
@@ -12,8 +17,17 @@ export class BaseRepository<T> {
     return created.save() as Promise<T>;
   }
 
-  async findAll(filter: FilterQuery<T> = {}): Promise<T[]> {
-    return this.model.find(filter).lean() as Promise<T[]>;
+  async findAll(
+    filter: FilterQuery<T> = {},
+    options: Options = {}
+  ): Promise<T[]> {
+    const query = this.model.find(filter);
+
+    if (options.sort) query.sort(options.sort);
+    if (options.limit) query.limit(options.limit);
+    if (options.skip) query.skip(options.skip);
+
+    return query.lean().exec() as Promise<T[]>;
   }
 
   async findById(id: string): Promise<T | null> {
@@ -34,5 +48,13 @@ export class BaseRepository<T> {
 
   async exists(filter: FilterQuery<T>): Promise<boolean> {
     return !!(await this.model.exists(filter));
+  }
+
+  async count(filter: FilterQuery<T> = {}): Promise<number> {
+    return this.model.countDocuments(filter).exec();
+  }
+
+  async aggregate<R = unknown>(pipeline: any[]): Promise<R[]> {
+    return this.model.aggregate(pipeline).exec();
   }
 }

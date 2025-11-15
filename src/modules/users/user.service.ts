@@ -1,3 +1,4 @@
+import { Role } from "../../enum";
 import { UserProfile } from "../auth/auth.dto";
 import { getPaymentsByUserId } from "../payments/payments.service";
 import { getSubscriptionByUserId } from "../subscriptions/subscription.service";
@@ -30,16 +31,20 @@ export const getUserProfile = async (id: string): Promise<UserProfile | null> =>
   return profile;
 };
 
-export const createUser = (data: Partial<UserDocument>) => {
-  return userRepository.create(data);
-};
-
 export const getUserByEmail = (email: string) => {
   return userRepository.findOne({ email, active: true });
 };
 
 export const getUserByEmailToAuth = (email: string) => {
   return userRepository.findByEmailToAuth(email);
+};
+
+export const getUserCountByRole = (role: Role) => {
+  return userRepository.count({ role, active: true });
+}
+
+export const createUser = (data: Partial<UserDocument>) => {
+  return userRepository.create(data);
 };
 
 export const updateProfile = async (id: string, data: Partial<UserDocument>) => {

@@ -1,10 +1,14 @@
-import {} from "mongoose";
-import { PaymentMethod, PaymentStatus, Period } from "../../enum";
+import { } from "mongoose";
+import { PaymentStatus, Period } from "../../enum";
 import { SubscriptionStatus } from "../../enum/subscription-status.enum";
 import { PaymentDocument } from "../payments/payments.model";
-import { createPayment } from "../payments/payments.service";
+import {
+  createPayment
+} from "../payments/payments.service";
 import { getPlanById } from "../plan/plan.service";
-import { getServiceById } from "../services/services.service";
+import {
+  getServiceById
+} from "../services/services.service";
 import { SubscriptionDocument } from "./subscription.model";
 import { SubscriptionRepository } from "./subscription.repository";
 import { CreateSubscriptionDto } from "./subscription.schema";
@@ -20,7 +24,7 @@ export const getSubscriptionById = (id: string) => {
 };
 
 export const getSubscriptionByUserId = (userId: string) => {
-  return subscriptionRepository.findAll({ client: userId });
+  return subscriptionRepository.findAll({ client: userId }, { sort: { createdAt: -1 } });
 };
 
 export const getPendingPaymentSubscriptions = () => {
@@ -37,7 +41,6 @@ export const createSubscription = async (subscriptionData: CreateSubscriptionDto
   if (!service || !plan) {
     throw new Error("Service or Plan not found");
   }
-
   const subscription = {
     client: subscriptionData.client,
     service,
@@ -63,6 +66,7 @@ export const paidSubscription = async (subscription: SubscriptionDocument) => {
     subscription: subscription._id,
     plan: subscription.plan._id,
     client: subscription.client._id,
+    amount: subscription.plan.price,
     from: subscription.startDate,
     to: subscription.endDate,
     method: subscription.client.paymentMethod,
@@ -74,7 +78,19 @@ export const paidSubscription = async (subscription: SubscriptionDocument) => {
 
   return subscriptionRepository.update(String(subscription._id), {
     status: SubscriptionStatus.ACTIVE,
+    lastPaymentDate: new Date(),
   });
+};
+
+export const getSubscriptionsByCategory = (): Promise<{ category: string; count: number }[]> => {
+  return subscriptionRepository.countSubscriptionsByCategory();
+};
+
+export const getCountSubscriptions = (status?: SubscriptionStatus): Promise<number> => {
+  if (!status) {
+    return subscriptionRepository.count();
+  }
+  return subscriptionRepository.count({ status });
 };
 
 function calculateEndDate(startDate: Date, period: Period): Date {

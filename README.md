@@ -233,10 +233,11 @@ services:
 
 El sistema incluye seeders completos con:
 - 5 usuarios (2 admin, 3 clientes)
-- 4 categorías de servicios
+- 5 categorías de servicios
 - 4 planes de suscripción
-- 20 servicios de ejemplo
-- 3 suscripciones activas
+- 19 servicios de ejemplo
+- 2 suscripciones activas
+- 1 suscripción expirada
 - 3 registros de pagos
 
 ## 📄 Licencia

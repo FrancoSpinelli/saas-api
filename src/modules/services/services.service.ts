@@ -23,6 +23,14 @@ export const getServicesByInterestedCategories = (categories: string[]) => {
   return serviceRepository.findAll({ category: { $in: categories } });
 };
 
+export const getCountServices = () => {
+  return serviceRepository.count();
+};
+
+export const getTopSubscribedServices = () => {
+  return serviceRepository.getTopSubscribedServices();
+};
+
 export const createService = async (service: CreateServiceDto) => {
   return serviceRepository.create(service as any);
 };

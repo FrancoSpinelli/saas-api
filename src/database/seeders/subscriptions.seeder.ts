@@ -27,9 +27,9 @@ export const subscriptionsMock = [
     client: "64a1f3b2e4c5d6f700000004",
     plan: "64a1f3b2e4c5d6f700000023",
     service: "64a1f3b2e4c5d6f700000033",
-    startDate: new Date("2025-09-01T00:00:00Z"),
-    endDate: new Date("2025-10-01T00:00:00Z"),
-    lastPaymentDate: new Date("2025-09-01T00:00:00Z"),
+    startDate: new Date("2025-10-03T00:00:00Z"),
+    endDate: new Date("2025-11-03T00:00:00Z"),
+    lastPaymentDate: new Date("2025-10-03T00:00:00Z"),
     status: SubscriptionStatus.EXPIRED,
   },
 ];

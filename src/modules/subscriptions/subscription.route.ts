@@ -1,5 +1,6 @@
 import express from "express";
 import { validate } from "../../middleware";
+import isAdmin from "../../middleware/isAdmin.middleware";
 import {
   cancelSubscription,
   createSubscription,
@@ -7,10 +8,9 @@ import {
   getSubscriptionByUserId,
   getSubscriptions,
   inactivateSubscription,
-  renewSubscription,
+  renewSubscription
 } from "./subscription.controller";
 import { CreateSubscriptionSchema } from "./subscription.schema";
-import isAdmin from "../../middleware/isAdmin.middleware";
 
 const subscriptionsRouter = express.Router();
 
